@@ -1,14 +1,14 @@
----
 name: Hello
 on:
   push:
     branches:
       - main
-    jobs: null
-    greet:
-      run-on: ubuntu-latest
-      steps:
-        - name: say hello to user
-          run: echo "Hello Dosto"
-        - name: say hello to username
-          run: echo "Hello $USER"
+
+jobs:
+  greet:
+    runs-on: ubuntu-latest
+    steps:
+      - name: say hello to user
+        run: echo "Hello Dosto"
+      - name: say hello to username
+        run: echo "Hello $USER"
