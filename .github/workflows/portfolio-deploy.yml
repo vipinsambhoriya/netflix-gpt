@@ -4,11 +4,16 @@ on:
     push:
         branches: [main]
 
+    workflow_dispatch:
+
+#permissions:
+   # pages: write # to deploy to Github pages\
+    #id-token: write # to authenticate with the github token for deployment
+
 permissions:
-    pages: write # to deploy to Github pages\
-    id-token: write # to authenticate with the github token for deployment
-
-
+    contents: read
+    pages: write
+    id-token: write
 
 jobs:
     deploy:
@@ -26,6 +31,8 @@ jobs:
             # Upload the static site before deploying it.
             - name: upload static files
               uses: actions/upload-pages-artifact@v4
+              with:
+                path: "."
 
             # Make the page live.
             - name: deploy to github pages 
