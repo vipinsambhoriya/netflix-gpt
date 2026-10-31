@@ -32,7 +32,7 @@ jobs:
             - name: upload static files
               uses: actions/upload-pages-artifact@v4
               with:
-                path: "./src/index.html"
+                path: "."
 
             # Make the page live.
             - name: deploy to github pages 
