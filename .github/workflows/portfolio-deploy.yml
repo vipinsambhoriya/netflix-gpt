@@ -1,84 +1,38 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Portfolio</title>
-</head>
-<body style="font-family: Arial, sans-serif; line-height: 1.6; margin: 0; padding: 0; background-color: #f4f4f9; color: #333;">
+name: Portfolio
 
-    <!-- Header / Navigation -->
-    <header style="background: #333; color: #fff; padding: 20px 0; text-align: center;">
-        <h1>Alex Morgan</h1>
-        <p>Frontend Developer & UI Designer</p>
-        <nav>
-            <a href="#about" style="color: #fff; margin: 0 15px; text-decoration: none; font-weight: bold;">About Me</a>
-            <a href="#projects" style="color: #fff; margin: 0 15px; text-decoration: none; font-weight: bold;">Projects</a>
-            <a href="#skills" style="color: #fff; margin: 0 15px; text-decoration: none; font-weight: bold;">Skills</a>
-            <a href="#contact" style="color: #fff; margin: 0 15px; text-decoration: none; font-weight: bold;">Contact</a>
-        </nav>
-    </header>
+on:
+    push:
+        branches: [main]
 
-    <!-- Main Content Container -->
-    <main style="max-width: 800px; margin: 20px auto; padding: 20px; background: #fff; box-shadow: 0 0 10px rgba(0,0,0,0.1); border-radius: 8px;">
-        
-        <!-- About Section -->
-        <section id="about" style="margin-bottom: 40px; padding-top: 20px;">
-            <h2>About Me</h2>
-            <hr style="border: 0; height: 1px; background: #ccc; margin-bottom: 20px;">
-            <p>Hello! I am a passionate web developer focused on building clean, user-friendly, and responsive digital experiences. I enjoy turning complex problems into straightforward and elegant interface designs.</p>
-        </section>
+permissions:
+    pages: write # to deploy to Github pages\
+    id-token: write # to authenticate with the github token for deployment
 
-        <!-- Projects Section -->
-        <section id="projects" style="margin-bottom: 40px; padding-top: 20px;">
-            <h2>Projects</h2>
-            <hr style="border: 0; height: 1px; background: #ccc; margin-bottom: 20px;">
-            
-            <div style="margin-bottom: 30px; padding: 15px; border: 1px solid #ddd; border-radius: 5px;">
-                <h3>E-Commerce Interface Design</h3>
-                <p>A complete redesign of a retail storefront focusing on accessibility and speed optimization.</p>
-                <p><strong>Tech Stack:</strong> HTML, CSS, JavaScript</p>
-                <a href="#" target="_blank" style="color: #0066cc; text-decoration: none;">View Live Demo</a> | 
-                <a href="#" target="_blank" style="color: #0066cc; text-decoration: none;">GitHub Repository</a>
-            </div>
 
-            <div style="margin-bottom: 30px; padding: 15px; border: 1px solid #ddd; border-radius: 5px;">
-                <h3>Task Management Web App</h3>
-                <p>A productivity application featuring drag-and-drop task boards and dynamic calendar tracking updates.</p>
-                <p><strong>Tech Stack:</strong> React, Node.js, Tailwind CSS</p>
-                <a href="#" target="_blank" style="color: #0066cc; text-decoration: none;">View Live Demo</a> | 
-                <a href="#" target="_blank" style="color: #0066cc; text-decoration: none;">GitHub Repository</a>
-            </div>
-        </section>
 
-        <!-- Skills Section -->
-        <section id="skills" style="margin-bottom: 40px; padding-top: 20px;">
-            <h2>Technical Skills</h2>
-            <hr style="border: 0; height: 1px; background: #ccc; margin-bottom: 20px;">
-            <ul style="list-style-type: square; padding-left: 20px;">
-                <li>Semantic HTML5 & Responsive CSS3</li>
-                <li>JavaScript (ES6+) & Modern Frameworks</li>
-                <li>Version Control via Git & GitHub</li>
-                <li>UI/UX Prototyping and Wireframing</li>
-            </ul>
-        </section>
+jobs:
+    deploy:
+        runs-on: ubuntu-latest
 
-        <!-- Contact Section -->
-        <section id="contact" style="margin-bottom: 20px; padding-top: 20px;">
-            <h2>Contact Details</h2>
-            <hr style="border: 0; height: 1px; background: #ccc; margin-bottom: 20px;">
-            <p>Feel free to reach out if you're looking for a developer, have questions, or just want to connect!</p>
-            <p><strong>Email:</strong> <a href="mailto:alex.morgan@example.com" style="color: #0066cc; text-decoration: none;">alex.morgan@example.com</a></p>
-            <p><strong>LinkedIn:</strong> <a href="#" target="_blank" style="color: #0066cc; text-decoration: none;">://linkedin.com</a></p>
-            <p><strong>GitHub:</strong> <a href="#" target="_blank" style="color: #0066cc; text-decoration: none;">://github.com</a></p>
-        </section>
+        environment: 
+            name: github-pages
+            url: ${{steps.deployment.outputs.page_url}}
+        steps:
+            # get access to your portfolio code via a pre-built action that checks out your code
+            # clone or checkout the code where this workflow is written
+            # step 1: checkout the code from the repository
+            - name: checkout code
+              uses: actions/checkout@v4
+            # Upload the static site before deploying it.
+            - name: upload static files
+              uses: actions/upload-pages-artifact@v4
 
-    </main>
+            # Make the page live.
+            - name: deploy to github pages 
+              id: deployment
+              uses: actions/deploy-pages@v4
 
-    <!-- Footer -->
-    <footer style="text-align: center; padding: 20px; color: #777; font-size: 0.9em; background: #e9e9e9; margin-top: 40px;">
-        <p>&copy; 2026 Alex Morgan. All rights reserved.</p>
-    </footer>
 
-</body>
-</html>
+
+
+
